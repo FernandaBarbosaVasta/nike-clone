@@ -8,15 +8,51 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-        "banner": {
-            "type": "banner",
-            "settings": {
-
-            }
-        }
+  "sections": {
+    "banner": {
+      "type": "banner",
+      "settings": {
+        "background": "#f4f4f4",
+        "text_color": "#000000"
+      }
     },
-    "order": [
-        "banner"
-    ]
+    "three_images_tCrEEq": {
+      "type": "three-images",
+      "name": "three-images",
+      "settings": {}
+    },
+    "more_info_Q8Q4Qi": {
+      "type": "more-info",
+      "name": "more-info",
+      "settings": {
+        "background": "#f4f4f4",
+        "text_color": "#000000",
+        "text": "default text",
+        "text2": "default text"
+      }
+    },
+    "all_collections_rNHMGp": {
+      "type": "all-collections",
+      "name": "all-collections",
+      "settings": {
+        "background": "#F4F4F4",
+        "text_color": "#000000"
+      }
+    },
+    "all_products_XXLDdz": {
+      "type": "all-products",
+      "name": "all-products",
+      "settings": {
+        "background": "#F4F4F4",
+        "text_color": "#000000"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "three_images_tCrEEq",
+    "more_info_Q8Q4Qi",
+    "all_collections_rNHMGp",
+    "all_products_XXLDdz"
+  ]
 }

@@ -1,7 +1,7 @@
 <header class="header-nav">
     <div class="header-left-section">
         <a href="/">
-            <img src="{{ 'a.png' | asset_url }}" width="80" height="50">
+            <img src="{{ 'b-removebg.png' | asset_url }}" width="50" height="50">
         </a>
     </div>
 
@@ -18,13 +18,14 @@
           <input class="search-nav" placeholder="search" type="search">
         </form>
     
-        <a href="/cart">
+        <a href="/cart" class="cart-nav">
           <img
             class="shopping-img"
-            width="40"
-            height="40"
+            width="28"
+            height="28"
             loading="lazy"
-            src="{{ 'd.png' | asset_url }}"
+            src="{{ 'd-removebg.png' | asset_url }}"
+            alt="Cart"
           >
         </a>
       </div>
@@ -32,15 +33,16 @@
 
 <style>
     .shopping-img {
-      cursor: 'pointer';
-      margin-bottom: 10px;
+      cursor: pointer;
+      display: block;
     }
     .header-nav {
       display: flex;
+      align-items: center;
       justify-content: space-between;
       margin: 0;
       padding: 1px;
-      background-color: white;
+      background-color: #2F4F4F;
       padding: 0 30px 0 30px;
     }
   
@@ -57,6 +59,7 @@
   
     .middle-nav-links li:hover {
       text-decoration: underline;
+      color: white;
     }
   
     .middle-nav-links a {
@@ -67,12 +70,36 @@
     .header-right-section {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
+
     .search-nav {
       padding: 10px;
       margin-top: 10px;
       border-radius: 15px;
       border: none;
-      background-color: rgb(239, 234, 234);
+      background-color: rgb(98, 136, 136);
+      box-sizing: border-box;
     }
+
+    .cart-nav {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      padding: 6px;
+      margin: 0;
+      border-radius: 15px;
+      background-color: rgb(98, 136, 136);
+      text-decoration: none;
+      line-height: 0;
+      align-self: center;
+      transform: translateY(-2px);
+    }
+
+    .search-nav::placeholder {
+      color: white;
+    }
+
   </style>

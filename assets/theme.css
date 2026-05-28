@@ -1,7 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+
 body {
     background-color: "{{ settings.bg }}";
     padding: 0;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+    font-family: inherit;
 }
 
 /**
