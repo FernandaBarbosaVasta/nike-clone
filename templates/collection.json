@@ -8,16 +8,25 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-        "collection": {
-            "type": "collection",
-            "settings": {}
-          }
-   
-      },
-      "order": [
-        "collection"
-     
-      ]
-
+  "sections": {
+    "collection": {
+      "type": "collection",
+      "settings": {
+        "background": "#f4f4f4",
+        "text_color": "#000000"
+      }
+    },
+    "footer_L3afJW": {
+      "type": "footer",
+      "name": "footer",
+      "settings": {
+        "background": "#000000",
+        "text_color": "#F4F4F4"
+      }
+    }
+  },
+  "order": [
+    "collection",
+    "footer_L3afJW"
+  ]
 }

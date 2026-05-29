@@ -1,29 +1,31 @@
 <section class="product-main">
     <div class="product-main-wrapper">
-      <div>
+      <div class="product-image-zoom" data-product-zoom>
         <img
-          width="600"
-          height="600"
+          width="400"
+          height="400"
           loading="lazy"
-          src="{{ product.featured_image | image_url}}"
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.title | escape }}"
         >
       </div>
       <div>
         <h2>{{ product.title }}</h2>
-        <p>{{ product.price | money }}</p>
+        <p class="price">{{ product.price | money }}</p>
         <p>{{ product.description }}</p>
-        <h3>Select Size</h3>
-        {% form 'product', product %}
-          <select name="id">
-            {% for variant in product.variants %}
-              <option value="{{variant.id }}">
-                {{ variant.title }}
-              </option>
-            {% endfor %}
-          </select>
-        {% endform %}
-        <button type="submit">Add to Card</button>
-        <input type="submit" value="Add to cart">
+        <div class="product-variant-row">
+          <h3>Select Size: </h3>
+          {% form 'product', product %}
+            <select name="id">
+              {% for variant in product.variants %}
+                <option value="{{variant.id }}">
+                  {{ variant.title }}
+                </option>
+              {% endfor %}
+            </select>
+          {% endform %}
+        </div>
+        <button type="submit">Add to Cart</button>
       </div>
     </div>
   </section>
@@ -39,8 +41,116 @@
   
      .product-main-wrapper {
        display: flex;
+       align-items: flex-start;
+       gap: 48px;
+       max-width: 1000px;
+       margin: 0 auto;
+    }
+
+    .product-image-zoom {
+      overflow: hidden;
+      flex-shrink: 0;
+      width: 400px;
+      max-width: 100%;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+      cursor: zoom-in;
+    }
+
+    .product-image-zoom img {
+      display: block;
+      width: 100%;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+      transform-origin: center center;
+    }
+
+    .product-image-zoom.is-zoomed {
+      cursor: zoom-out;
+    }
+
+    .product-image-zoom.is-zoomed img {
+      transform: scale(2);
+    }
+
+    .price {
+      font-size: 30px;
+      font-weight: 600;
+      color: #2F4F4F;
+    }
+
+    .product-variant-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    .product-variant-row h3 {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .product-variant-row form {
+      display: inline-flex;
+      margin: 0;
+    }
+
+    .product-variant-row select {
+      margin: 0;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background-color: #000;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    button:hover {
+      transform: scale(1.02);
+      background-color: #333;
+      cursor: pointer;
     }
   </style>
+
+  <script>
+    (function () {
+      var zoomContainer = document.querySelector('[data-product-zoom]');
+      if (!zoomContainer) return;
+
+      var img = zoomContainer.querySelector('img');
+
+      function setZoomOrigin(event) {
+        var rect = zoomContainer.getBoundingClientRect();
+        var x = ((event.clientX - rect.left) / rect.width) * 100;
+        var y = ((event.clientY - rect.top) / rect.height) * 100;
+        img.style.transformOrigin = x + '% ' + y + '%';
+      }
+
+      function enableZoom() {
+        zoomContainer.classList.add('is-zoomed');
+      }
+
+      function disableZoom() {
+        zoomContainer.classList.remove('is-zoomed');
+        img.style.transformOrigin = 'center center';
+      }
+
+      zoomContainer.addEventListener('mouseenter', enableZoom);
+      zoomContainer.addEventListener('mousemove', setZoomOrigin);
+      zoomContainer.addEventListener('mouseleave', disableZoom);
+
+      zoomContainer.addEventListener('click', function () {
+        zoomContainer.classList.toggle('is-zoomed');
+      });
+    })();
+  </script>
   
   {% schema %}
   {

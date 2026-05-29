@@ -1,33 +1,37 @@
 {% paginate collection.products by 4 %}
     <section class="collection-sec">
+
       <div>
-        <select id="sort-by">
-          {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-  
-          {% for option in collection.sort_options %}
-            <option
-              value="{{ option.value }}"
-              {% if option.value == sort_by %}
-                selected="selected"
-              {% endif %}
-            >
-              {{ option.name }}
-            </option>
-          {% endfor %}
-        </select>
-      </div>
-      <div>
-        <h1>collections</h1>
-        <p>{{ collection.title }}</p>
+        <h1>Collection: {{ collection.title }}</h1>
+        <p>{{ collection.description }}</p>
+        <div>
+          <select id="sort-by">
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+    
+            {% for option in collection.sort_options %}
+              <option
+                value="{{ option.value }}"
+                {% if option.value == sort_by %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
         <div class="products-grid">
           {% for product in collection.products %}
             <div class="product-card">
-              <img
-                width="300"
-                height="300"
-                loading="lazy"
-                src="{{ product.featured_image | image_url}}"
-              >
+              <a href="{{ product.url }}">
+                <img
+                  width="300"
+                  height="300"
+                  loading="lazy"
+                  src="{{ product.featured_image | image_url }}"
+                  alt="{{ product.title | escape }}"
+                >
+              </a>
               <h3>{{- product.title | link_to: product.url }}</h3>
             </div>
           {% endfor %}
@@ -48,22 +52,53 @@
       display: flex;
       justify-content: space-between
     }
+    
     .products-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr); /* Three columns */
       gap: 20px; /* Adjust the gap between grid items */
+
     }
   
     .product-card {
-      border: 1px solid #ddd; /* Add a border for each product card */
       padding: 10px;
       text-align: center;
+      border: 1px solid #ddd; /* Add a border for each product card */
+      border-radius: 10px;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.02);
+      }
+
     }
   
     .product-card img {
       max-width: 100%;
       height: auto;
     }
+
+    .product-card a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .product-card a:hover {
+      text-decoration: underline;
+      color:rgb(170, 167, 167);
+    }
+
+    select {
+      padding: 8px;
+      border-radius: 5px;
+      margin: 10px 0px 10px 0px;
+      width: 25%;
+      box-sizing: border-box;
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
   </style>
   
   <script>

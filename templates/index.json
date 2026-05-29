@@ -35,15 +35,7 @@
       "type": "all-collections",
       "name": "all-collections",
       "settings": {
-        "background": "#f4f4f4",
-        "text_color": "#000000"
-      }
-    },
-    "all_products_XXLDdz": {
-      "type": "all-products",
-      "name": "all-products",
-      "settings": {
-        "background": "#f4f4f4",
+        "background": "#e4e1e1",
         "text_color": "#000000"
       }
     },
@@ -52,7 +44,7 @@
       "name": "footer",
       "settings": {
         "background": "#000000",
-        "text_color": "#F4F4F4"
+        "text_color": "#f4f4f4"
       }
     }
   },
@@ -61,7 +53,6 @@
     "three_images_tCrEEq",
     "more_info_Q8Q4Qi",
     "all_collections_rNHMGp",
-    "all_products_XXLDdz",
     "footer_PddMpd"
   ]
 }
