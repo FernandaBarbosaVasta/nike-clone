@@ -2,8 +2,7 @@
     <section class="collection-sec">
 
       <div>
-        <h1>Collection: {{ collection.title }}</h1>
-        <p>{{ collection.description }}</p>
+        <h1>All Collections</h1>
         <div>
           <select id="sort-by">
             {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
@@ -39,7 +38,9 @@
       </div>
     </section>
   
-    {{ paginate | default_pagination }}
+    <div class="collection-pagination">
+      {{ paginate | default_pagination }}
+    </div>
   {% endpaginate %}
   
   <style>
@@ -55,9 +56,20 @@
     
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* Three columns */
-      gap: 20px; /* Adjust the gap between grid items */
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
 
+    @media (max-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
     }
   
     .product-card {
@@ -97,6 +109,63 @@
       font-size: 16px;
       font-weight: 600;
       color: #333;
+    }
+
+    .collection-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 24px 10px 40px;
+    }
+
+    .collection-pagination .page,
+    .collection-pagination .next,
+    .collection-pagination .prev,
+    .collection-pagination .deco {
+      display: inline-flex;
+    }
+
+    .collection-pagination .page a,
+    .collection-pagination .next a,
+    .collection-pagination .prev a,
+    .collection-pagination .page.current {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      padding: 0 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .collection-pagination .page.current {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    .collection-pagination .page a:hover,
+    .collection-pagination .next a:hover,
+    .collection-pagination .prev a:hover {
+      background: #f0f0f0;
+      transform: translateY(-1px);
+    }
+
+    .collection-pagination .deco {
+      align-items: center;
+      padding: 0 4px;
+      font-weight: 600;
+      color: #666;
     }
 
   </style>

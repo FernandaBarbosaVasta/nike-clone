@@ -46,14 +46,6 @@
         "background": "#000000",
         "text_color": "#f4f4f4"
       }
-    },
-    "all_products_bWxbFH": {
-      "type": "all-products",
-      "name": "all-products",
-      "settings": {
-        "background": "#F4F4F4",
-        "text_color": "#000000"
-      }
     }
   },
   "order": [
@@ -61,7 +53,6 @@
     "three_images_tCrEEq",
     "more_info_Q8Q4Qi",
     "all_collections_rNHMGp",
-    "all_products_bWxbFH",
     "footer_PddMpd"
   ]
 }

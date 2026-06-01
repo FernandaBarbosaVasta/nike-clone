@@ -17,7 +17,7 @@
         </p>
       {%- endif -%}
   
-      <button>Shop</button>
+      <a class="more-info-link" href="/collections/all">Shop</a>
     </div>
   </section>
   
@@ -51,19 +51,23 @@
         line-height: 1.5;
      }
   
-     .more-info-wrapper button {
+     .more-info-link {
+        display: inline-block;
         margin-top: 8px;
-        padding: 10px 20px;
-        background-color: black;
-        border: none;
-        color: white;
+        padding: 10px 24px;
+        background-color: #000;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
         border-radius: 20px;
         cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
      }
-  
-     .more-info-wrapper button:hover {
+
+     .more-info-link:hover {
         background-color: rgb(185, 185, 185);
-  
+        color: #000;
+        transform: scale(1.02);
      }
   </style>
   {% schema %}

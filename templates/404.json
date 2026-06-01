@@ -8,14 +8,23 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-      "main": {
-        "type": "main-404",
-        "settings": {
-        }
-      }
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "disabled": true,
+      "settings": {}
     },
-    "order": [
-      "main"
-    ]
+    "about_us_BBqQ6d": {
+      "type": "about-us",
+      "name": "about-us",
+      "settings": {
+        "background": "#F4F4F4",
+        "text_color": "#000000"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "about_us_BBqQ6d"
+  ]
 }
