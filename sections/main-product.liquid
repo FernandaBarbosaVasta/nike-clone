@@ -13,19 +13,20 @@
         <h2>{{ product.title }}</h2>
         <p class="price">{{ product.price | money }}</p>
         <p>{{ product.description }}</p>
-        <div class="product-variant-row">
-          <h3>Select Size: </h3>
-          {% form 'product', product %}
+        {% form 'product', product, class: 'product-form' %}
+          <div class="product-variant-row">
+            <h3>Select Size:</h3>
             <select name="id">
               {% for variant in product.variants %}
-                <option value="{{variant.id }}">
+                <option value="{{ variant.id }}">
                   {{ variant.title }}
                 </option>
               {% endfor %}
             </select>
-          {% endform %}
-        </div>
-        <button type="submit">Add to Cart</button>
+          </div>
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" name="add">Add to Cart</button>
+        {% endform %}
       </div>
     </div>
   </section>
@@ -92,8 +93,7 @@
       white-space: nowrap;
     }
 
-    .product-variant-row form {
-      display: inline-flex;
+    .product-form {
       margin: 0;
     }
 
@@ -101,7 +101,7 @@
       margin: 0;
     }
 
-    button {
+    .product-form button {
       margin-top: 20px;
       padding: 16px;
       border-radius: 12px;
@@ -110,12 +110,12 @@
       color: #fff;
       font-size: 16px;
       font-weight: 600;
+      cursor: pointer;
     }
 
-    button:hover {
+    .product-form button:hover {
       transform: scale(1.02);
       background-color: #333;
-      cursor: pointer;
     }
   </style>
 

@@ -8,16 +8,36 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-        "main-product": {
-            "type": "main-product",
-            "settings": {}
-          }
-   
-      },
-      "order": [
-        "main-product"
-     
-      ]
-
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "settings": {
+        "background": "#f4f4f4",
+        "text_color": "#000000"
+      }
+    },
+    "more_info_rnEbd9": {
+      "type": "more-info",
+      "name": "more-info",
+      "settings": {
+        "background": "#cecccc",
+        "text_color": "#000000",
+        "text": "default text",
+        "text2": "default text"
+      }
+    },
+    "footer_8cyjVq": {
+      "type": "footer",
+      "name": "footer",
+      "settings": {
+        "background": "#000000",
+        "text_color": "#F4F4F4"
+      }
+    }
+  },
+  "order": [
+    "main-product",
+    "more_info_rnEbd9",
+    "footer_8cyjVq"
+  ]
 }

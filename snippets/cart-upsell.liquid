@@ -1,0 +1,135 @@
+{% liquid
+  assign max_upsells = 4
+  assign upsell_ids = '|'
+  assign upsell_count = 0
+  assign cart_product_ids = '|'
+
+  if cart.item_count > 0
+    for cart_item in cart.items
+      assign cart_product_ids = cart_product_ids | append: cart_item.product.id | append: '|'
+    endfor
+  endif
+%}
+
+{% if cart.item_count > 0 %}
+  {% capture upsell_cards %}
+    {% for cart_item in cart.items %}
+      {% if upsell_count >= max_upsells %}
+        {% break %}
+      {% endif %}
+
+      {% for collection in cart_item.product.collections %}
+        {% if upsell_count >= max_upsells %}
+          {% break %}
+        {% endif %}
+
+        {% for product in collection.products %}
+          {% if upsell_count >= max_upsells %}
+            {% break %}
+          {% endif %}
+
+          {% assign product_token = '|' | append: product.id | append: '|' %}
+          {% unless upsell_ids contains product_token %}
+            {% unless cart_product_ids contains product_token %}
+              {% assign upsell_ids = upsell_ids | append: product.id | append: '|' %}
+              {% assign upsell_count = upsell_count | plus: 1 %}
+              <div class="cart-upsell-card">
+                <a href="{{ product.url }}" class="cart-upsell-card-link">
+                  {% if product.featured_image %}
+                    <img
+                      width="200"
+                      height="200"
+                      loading="lazy"
+                      src="{{ product.featured_image | image_url: width: 400 }}"
+                      alt="{{ product.title | escape }}"
+                    >
+                  {% endif %}
+                  <h3>{{ product.title }}</h3>
+                  <p class="cart-upsell-price">{{ product.price | money }}</p>
+                </a>
+              </div>
+            {% endunless %}
+          {% endunless %}
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+  {% endcapture %}
+
+  {% if upsell_count > 0 %}
+    <section class="cart-upsell">
+      <h2 class="cart-upsell-title">You may also like</h2>
+      <div class="cart-upsell-grid">
+        {{ upsell_cards }}
+      </div>
+    </section>
+  {% endif %}
+{% endif %}
+
+<style>
+  .cart-upsell {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 8px 20px 40px;
+    box-sizing: border-box;
+  }
+
+  .cart-upsell-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .cart-upsell-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .cart-upsell-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+  }
+
+  .cart-upsell-card:hover {
+    transform: scale(1.02);
+  }
+
+  .cart-upsell-card-link {
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cart-upsell-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .cart-upsell-card h3 {
+    margin: 10px 0 4px;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .cart-upsell-price {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2f4f4f;
+  }
+
+  @media (min-width: 640px) {
+    .cart-upsell-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>
