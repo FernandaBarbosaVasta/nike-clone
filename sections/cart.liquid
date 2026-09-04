@@ -21,7 +21,7 @@
               {% unless item.variant.title == 'Default Title' %}
                 <p>{{ item.variant.title }}</p>
               {% endunless %}
-              <p>{{ item.final_line_price | money }}</p>
+              <p class="cart-item-price">{{ item.final_line_price | money }}</p>
               <div class="cart-qty-control" data-qty-control>
                 <span class="cart-qty-text">Quantity:</span>
                 <button type="button" class="cart-qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
@@ -189,14 +189,33 @@
     var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
     if (root.charAt(root.length - 1) !== '/') root += '/';
     var cartUpdateUrl = root + 'cart/update.js';
+    var moneyFormat = {{ shop.money_format | json }};
+    var currencyCode = {{ cart.currency.iso_code | json }};
 
     function formatMoney(cents) {
       if (window.Shopify && typeof Shopify.formatMoney === 'function') {
-        return Shopify.formatMoney(cents);
+        return Shopify.formatMoney(cents, moneyFormat);
       }
       return (cents / 100).toLocaleString(undefined, {
         style: 'currency',
-        currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD'
+        currency: currencyCode || 'USD'
+      });
+    }
+
+    function updateCartDisplay(cart) {
+      var totalEl = document.querySelector('.cart-total');
+      if (totalEl) {
+        totalEl.textContent = 'Total: ' + formatMoney(cart.total_price);
+      }
+
+      cart.items.forEach(function (item) {
+        var input = document.querySelector('.cart-qty-input[data-line-key="' + item.key + '"]');
+        if (!input) return;
+
+        var priceEl = input.closest('.cart-item-details').querySelector('.cart-item-price');
+        if (priceEl) {
+          priceEl.textContent = formatMoney(item.final_line_price);
+        }
       });
     }
 
@@ -223,10 +242,7 @@
         if (divider && divider.tagName === 'HR') divider.remove();
       }
 
-      var totalEl = document.querySelector('.cart-total');
-      if (totalEl) {
-        totalEl.textContent = 'Total: ' + formatMoney(cart.total_price);
-      }
+      updateCartDisplay(cart);
 
       if (cart.item_count === 0) {
         var cartItems = document.querySelector('.cart-items');
@@ -256,17 +272,14 @@
             return;
           }
 
-          var totalEl = document.querySelector('.cart-total');
-          if (totalEl) {
-            totalEl.textContent = 'Total: ' + formatMoney(cart.total_price);
-          }
+          updateCartDisplay(cart);
         })
         .catch(function () {
           window.location.reload();
         });
     }
 
-    document.querySelectorAll('[data-qty-control]').forEach(function (control) {
+    document.querySelectorAll('.cart-sec [data-qty-control]').forEach(function (control) {
       var input = control.querySelector('.cart-qty-input');
 
       control.querySelector('[data-qty-minus]').addEventListener('click', function () {
@@ -280,7 +293,7 @@
       });
     });
 
-    document.querySelectorAll('.cart-remove-item[data-line-key]').forEach(function (button) {
+    document.querySelectorAll('.cart-sec .cart-remove-item[data-line-key]').forEach(function (button) {
       button.addEventListener('click', function () {
         var lineKey = button.getAttribute('data-line-key');
         if (!lineKey) return;
