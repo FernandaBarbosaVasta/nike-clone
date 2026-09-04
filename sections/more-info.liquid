@@ -49,6 +49,7 @@
      .more-info-wrapper p {
         margin: 0;
         line-height: 1.5;
+        font-size: 24px;
      }
   
      .more-info-link {
@@ -68,6 +69,32 @@
         background-color: rgb(185, 185, 185);
         color: #000;
         transform: scale(1.02);
+     }
+
+     @media screen and (max-width: 1019px) {
+       .more-info {
+         padding: 48px 20px 56px;
+       }
+
+       .more-info-wrapper {
+         width: 100%;
+         gap: 24px;
+       }
+
+       .more-info-wrapper h1 {
+         font-size: 36px;
+         line-height: 1.15;
+       }
+
+       .more-info-wrapper p {
+         font-size: 18px;
+         line-height: 1.6;
+       }
+
+       .more-info-link {
+         font-size: 17px;
+         padding: 14px 32px;
+       }
      }
   </style>
   {% schema %}

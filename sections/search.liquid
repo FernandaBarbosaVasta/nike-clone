@@ -1,15 +1,22 @@
-<section>
-    {% if search.performed %}
-      <h1>search page</h1>
-      <div>
-        {% for result in search.results %}
-          <p>{{ result.object_type }}</p>
-        {% endfor %}
-    {% else %}
-      <h1>not results found!</h1>
-      </div>
-    {% endif %}
-  </section>
+<section
+  class="search-page"
+  style="background: {{ section.settings.background }}; color: {{ section.settings.text_color }};"
+>
+  {% if search.performed %}
+    <h1>Search results{% if search.terms != blank %} for "{{ search.terms | escape }}"{% endif %}</h1>
+    <div class="search-results">
+      {% for result in search.results %}
+        <div class="search-result-item">
+          <p>{{ result.object_type | capitalize }}</p>
+        </div>
+      {% else %}
+        <p>No results found.</p>
+      {% endfor %}
+    </div>
+  {% else %}
+    <h1>No results found!</h1>
+  {% endif %}
+</section>
   
   {% schema %}
   {

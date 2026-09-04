@@ -182,6 +182,45 @@
     color: rgb(161, 26, 26);
   }
 
+  @media screen and (max-width: 1019px) {
+    .cart-sec {
+      padding: 32px 16px 16px;
+    }
+
+    .cart-item img {
+      width: 160px;
+      height: 160px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .cart-item {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .cart-item img {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+    }
+
+    .cart-item-details h2 {
+      font-size: 1.25rem;
+    }
+
+    .cart-total {
+      font-size: 22px;
+      text-align: center;
+    }
+
+    .cart-actions button {
+      width: 100%;
+    }
+  }
+
 </style>
 
 <script>

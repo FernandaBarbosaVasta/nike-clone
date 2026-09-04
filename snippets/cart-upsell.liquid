@@ -127,9 +127,27 @@
     color: #2f4f4f;
   }
 
-  @media (min-width: 640px) {
+  @media screen and (min-width: 1020px) {
     .cart-upsell-grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .cart-upsell {
+      padding: 8px 16px 32px;
+    }
+
+    .cart-upsell-title {
+      font-size: 20px;
+    }
+
+    .cart-upsell-card h3 {
+      font-size: 17px;
+    }
+
+    .cart-upsell-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

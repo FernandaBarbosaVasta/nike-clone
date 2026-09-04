@@ -77,6 +77,24 @@
       background-size: cover;
       background-position: center;
     }
+
+    @media screen and (max-width: 1019px) {
+      .three-images-wrapper {
+        flex-direction: column;
+      }
+
+      .three-images-wrapper .one,
+      .three-images-wrapper .two,
+      .three-images-wrapper .three,
+      .three-images-wrapper .one-user,
+      .three-images-wrapper .two-user,
+      .three-images-wrapper .three-user {
+        width: 100%;
+        height: auto;
+        min-height: 360px;
+        aspect-ratio: 4 / 3;
+      }
+    }
   </style>
   
   {% schema %}

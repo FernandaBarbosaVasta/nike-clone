@@ -117,6 +117,56 @@
       transform: scale(1.02);
       background-color:rgb(18, 122, 117);
     }
+
+    @media screen and (max-width: 1019px) {
+      .product-main-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        max-width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+
+      .product-image-zoom {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      .product-main {
+        padding: 16px;
+      }
+
+      .product-main-wrapper {
+        padding: 0;
+      }
+
+      .product-image-zoom.is-zoomed img {
+        transform: scale(1.5);
+      }
+
+      .price {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .product-variant-row {
+        flex-wrap: wrap;
+      }
+
+      .product-variant-row select {
+        width: 100%;
+      }
+
+      .product-form button {
+        width: 100%;
+      }
+    }
   </style>
 
   <script>

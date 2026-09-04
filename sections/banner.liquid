@@ -38,6 +38,19 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
+
+    @media screen and (max-width: 1019px) {
+      #banner-{{ section.id }} .banner-wrapper {
+        min-height: 44px;
+      }
+
+      #banner-{{ section.id }} .slide-text {
+        font-size: 16px;
+        padding: 10px 16px;
+        white-space: normal;
+        line-height: 1.4;
+      }
+    }
   </style>
 
   <script>

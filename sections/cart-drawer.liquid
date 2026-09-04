@@ -287,6 +287,28 @@
   body.cart-drawer-open {
     overflow: hidden;
   }
+
+  @media screen and (max-width: 767px) {
+    .cart-drawer-panel {
+      width: 100vw;
+    }
+
+    .cart-drawer-header,
+    .cart-drawer-body,
+    .cart-drawer-footer {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .cart-drawer-title {
+      font-size: 18px;
+    }
+
+    .cart-drawer-item-image img {
+      width: 72px;
+      height: 72px;
+    }
+  }
 </style>
 
 <script>
