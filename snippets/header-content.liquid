@@ -1,105 +1,180 @@
-<header class="header-nav">
-    <div class="header-left-section">
-        <a href="/">
-            <img src="{{ 'b-removebg.png' | asset_url }}" width="50" height="50">
-        </a>
-    </div>
+{%- liquid
+  assign menu_handle = section.settings.menu | default: 'main-menu'
+  assign menu = linklists[menu_handle]
+  assign logo_width = section.settings.logo_width | default: 50
+  assign menu_font_size = section.settings.menu_font_size | default: 17
+  assign cart_icon_size = section.settings.cart_icon_size | default: 28
+  assign padding_horizontal = section.settings.padding_horizontal | default: 30
+-%}
 
-    <div class="header-middle-section">
-        <ul class="middle-nav-links">
-            {% for link in linklists['main-menu'].links -%}
-            <li>{{ link.title | link_to: link.url }}</li>
-            {%- endfor %}
-        </ul>
-    </div>
+<header
+  class="header-nav{% if section.settings.sticky_header %} is-sticky{% endif %}"
+  style="
+    --header-bg: {{ section.settings.background_color }};
+    --header-text: {{ section.settings.text_color }};
+    --header-link-hover: {{ section.settings.link_hover_color }};
+    --header-accent-bg: {{ section.settings.accent_background }};
+    --header-menu-font-size: {{ menu_font_size }}px;
+    --header-padding-x: {{ padding_horizontal }}px;
+    --header-logo-width: {{ logo_width }}px;
+    --header-cart-icon-size: {{ cart_icon_size }}px;
+  "
+>
+  <div class="header-left-section">
+    <a href="{{ routes.root_url }}">
+      {%- if section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 240 }}"
+          width="{{ logo_width }}"
+          height="{{ logo_width }}"
+          alt="{{ shop.name | escape }}"
+          loading="eager"
+        >
+      {%- else -%}
+        <img
+          src="{{ 'b-removebg.png' | asset_url }}"
+          width="{{ logo_width }}"
+          height="{{ logo_width }}"
+          alt="{{ shop.name | escape }}"
+          loading="eager"
+        >
+      {%- endif -%}
+    </a>
+  </div>
 
-    <div class="header-right-section">
-        <form action="/search">
-          <input class="search-nav" placeholder="search" type="search">
-        </form>
-    
-        <a href="{{ routes.cart_url }}" class="cart-nav" data-cart-drawer-open aria-label="Open cart">
-          <img
-            class="shopping-img"
-            width="28"
-            height="28"
-            loading="lazy"
-            src="{{ 'd-removebg.png' | asset_url }}"
-            alt="Cart"
-          >
-        </a>
-      </div>
+  <div class="header-middle-section">
+    <ul class="middle-nav-links">
+      {%- for link in menu.links -%}
+        <li>{{ link.title | link_to: link.url }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="header-right-section">
+    {%- if section.settings.show_search -%}
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <input
+          class="search-nav"
+          type="search"
+          name="q"
+          placeholder="{{ section.settings.search_placeholder | escape }}"
+          aria-label="{{ section.settings.search_placeholder | escape }}"
+        >
+      </form>
+    {%- endif -%}
+
+    <a href="{{ routes.cart_url }}" class="cart-nav" data-cart-drawer-open aria-label="Open cart">
+      {%- if section.settings.cart_icon != blank -%}
+        <img
+          class="shopping-img"
+          width="{{ cart_icon_size }}"
+          height="{{ cart_icon_size }}"
+          loading="lazy"
+          src="{{ section.settings.cart_icon | image_url: width: 80 }}"
+          alt="Cart"
+        >
+      {%- else -%}
+        <img
+          class="shopping-img"
+          width="{{ cart_icon_size }}"
+          height="{{ cart_icon_size }}"
+          loading="lazy"
+          src="{{ 'd-removebg.png' | asset_url }}"
+          alt="Cart"
+        >
+      {%- endif -%}
+    </a>
+  </div>
 </header>
 
 <style>
-    .shopping-img {
-      cursor: pointer;
-      display: block;
-    }
-    .header-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0;
-      padding: 1px;
-      background-color: #2F4F4F;
-      padding: 0 30px 0 30px;
-    }
-  
-    .middle-nav-links {
-      display: flex;
-      font-size: 17px;
-      font-weight: bold;
-    }
-  
-    .middle-nav-links li {
-      list-style-type: none;
-      padding: 10px;
-    }
-  
-    .middle-nav-links li:hover {
-      text-decoration: underline;
-      color: rgb(98, 136, 136);
-    }
-  
-    .middle-nav-links a {
-      text-decoration: none;
-      color: inherit;
-    }
-  
-    .header-right-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+  .shopping-img {
+    cursor: pointer;
+    display: block;
+    width: var(--header-cart-icon-size);
+    height: var(--header-cart-icon-size);
+    object-fit: contain;
+  }
 
-    .search-nav {
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 15px;
-      border: none;
-      background-color: rgb(98, 136, 136);
-      box-sizing: border-box;
-    }
+  .header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0 var(--header-padding-x);
+    background-color: var(--header-bg);
+    color: var(--header-text);
+  }
 
-    .cart-nav {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      flex-shrink: 0;
-      padding: 6px;
-      margin: 0;
-      border-radius: 15px;
-      background-color: rgb(98, 136, 136);
-      text-decoration: none;
-      line-height: 0;
-      align-self: center;
-      transform: translateY(-2px);
-    }
+  .header-nav.is-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
 
-    .search-nav::placeholder {
-      color: white;
-    }
+  .header-left-section img {
+    width: var(--header-logo-width);
+    height: auto;
+    display: block;
+  }
 
-  </style>
+  .middle-nav-links {
+    display: flex;
+    font-size: var(--header-menu-font-size);
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+  }
+
+  .middle-nav-links li {
+    list-style-type: none;
+    padding: 10px;
+  }
+
+  .middle-nav-links li:hover {
+    text-decoration: underline;
+    color: var(--header-link-hover);
+  }
+
+  .middle-nav-links a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .header-right-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-nav {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: var(--header-accent-bg);
+    color: var(--header-text);
+    box-sizing: border-box;
+  }
+
+  .cart-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    padding: 6px;
+    margin: 0;
+    border-radius: 15px;
+    background-color: var(--header-accent-bg);
+    text-decoration: none;
+    line-height: 0;
+    align-self: center;
+    transform: translateY(-2px);
+  }
+
+  .search-nav::placeholder {
+    color: var(--header-text);
+    opacity: 0.85;
+  }
+</style>

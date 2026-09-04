@@ -1,13 +1,138 @@
-<nav>
-    {% render 'header-content' %}
+<nav {{ section.shopify_attributes }}>
+  {% render 'header-content', section: section %}
 </nav>
-  
-  
-  {% schema %}
+
+{% schema %}
+{
+  "name": "Navbar",
+  "settings": [
     {
-      "name": "Navbar",
-      "settings": [],
-      "presets": []
-  
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "range",
+      "id": "menu_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu font size",
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#2F4F4F"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover",
+      "default": "#628888"
+    },
+    {
+      "type": "color",
+      "id": "accent_background",
+      "label": "Search and cart background",
+      "default": "#628888"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "search"
+    },
+    {
+      "type": "header",
+      "content": "Cart"
+    },
+    {
+      "type": "image_picker",
+      "id": "cart_icon",
+      "label": "Cart icon"
+    },
+    {
+      "type": "range",
+      "id": "cart_icon_size",
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Cart icon size",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Sticky header",
+      "default": false
     }
-  {% endschema %}
+  ],
+  "presets": [
+    {
+      "name": "Navbar"
+    }
+  ]
+}
+{% endschema %}
