@@ -22,16 +22,24 @@
                 <p>{{ item.variant.title }}</p>
               {% endunless %}
               <p class="cart-item-price">{{ item.final_line_price | money }}</p>
-              <div class="cart-qty-control" data-qty-control>
-                <span class="cart-qty-text">Quantity:</span>
-                <button type="button" class="cart-qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
-                <span class="cart-qty-value">{{ item.quantity }}</span>
-                <input type="hidden" class="cart-qty-input" name="updates[{{ item.key }}]" value="{{ item.quantity }}" data-line-key="{{ item.key }}">
-                <button type="button" class="cart-qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+              <div class="cart-item-actions">
+                <div class="cart-qty-control" data-qty-control>
+                  <span class="cart-qty-text">Quantity:</span>
+                  <button
+                    type="button"
+                    class="cart-qty-btn"
+                    data-qty-minus
+                    aria-label="Decrease quantity"
+                    {% if item.quantity <= 1 %}disabled{% endif %}
+                  >−</button>
+                  <span class="cart-qty-value">{{ item.quantity }}</span>
+                  <input type="hidden" class="cart-qty-input" name="updates[{{ item.key }}]" value="{{ item.quantity }}" data-line-key="{{ item.key }}">
+                  <button type="button" class="cart-qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+                <button type="button" class="cart-remove-item" data-line-key="{{ item.key }}" aria-label="Remove {{ item.product.title | escape }}">
+                  Remove
+                </button>
               </div>
-              <button type="button" class="cart-remove-item" data-line-key="{{ item.key }}" aria-label="Remove {{ item.product.title | escape }}">
-                Remove
-              </button>
             </div>
           </div>
           <hr>
@@ -111,12 +119,24 @@
     margin: 0 0 8px;
   }
 
+  .cart-item-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
   .cart-qty-control {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-size: 14px;
-    margin: 8px 0;
+    margin: 0;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
   }
 
   .cart-qty-btn {
@@ -129,10 +149,18 @@
     border-radius: 6px;
     background: #fff;
     cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
   }
 
-  .cart-qty-btn:hover {
+  .cart-qty-btn:hover:not(:disabled) {
     background: #f0f0f0;
+  }
+
+  .cart-qty-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f5f5f5;
+    color: #999;
   }
 
   .cart-qty-value {
@@ -169,17 +197,27 @@
   }
 
   .cart-remove-item {
-    padding: 0;
-    border: none;
-    background: none;
-    font: inherit;
-    text-decoration: underline;
-    color: #000;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #333;
     cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
 
-  .cart-remove-item:hover {
-    color: rgb(161, 26, 26);
+  .cart-remove-item:hover:not(:disabled) {
+    background-color: rgb(161, 26, 26);
+    border-color: rgb(161, 26, 26);
+    color: #fff;
+  }
+
+  .cart-remove-item:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   @media screen and (max-width: 1019px) {
@@ -241,10 +279,23 @@
       });
     }
 
+    function updateMinusButtonState(control) {
+      var input = control.querySelector('.cart-qty-input');
+      var minusBtn = control.querySelector('[data-qty-minus]');
+      if (!input || !minusBtn) return;
+
+      var qty = parseInt(input.value, 10) || 0;
+      minusBtn.disabled = qty <= 1;
+    }
+
     function updateCartDisplay(cart) {
       var totalEl = document.querySelector('.cart-total');
       if (totalEl) {
         totalEl.textContent = 'Total: ' + formatMoney(cart.total_price);
+      }
+
+      if (typeof window.updateHeaderCartCount === 'function') {
+        window.updateHeaderCartCount(cart.item_count);
       }
 
       cart.items.forEach(function (item) {
@@ -302,6 +353,7 @@
 
       input.value = nextQty;
       display.textContent = nextQty;
+      updateMinusButtonState(control);
 
       updateCartLine(lineKey, nextQty)
         .then(function (cart) {
@@ -323,13 +375,15 @@
 
       control.querySelector('[data-qty-minus]').addEventListener('click', function () {
         var qty = parseInt(input.value, 10) || 0;
-        if (qty > 0) submitUpdate(control, qty - 1);
+        if (qty > 1) submitUpdate(control, qty - 1);
       });
 
       control.querySelector('[data-qty-plus]').addEventListener('click', function () {
         var qty = parseInt(input.value, 10) || 0;
         submitUpdate(control, qty + 1);
       });
+
+      updateMinusButtonState(control);
     });
 
     document.querySelectorAll('.cart-sec .cart-remove-item[data-line-key]').forEach(function (button) {

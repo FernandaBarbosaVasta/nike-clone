@@ -380,8 +380,13 @@
 
     function updateTitleCount(count) {
       var title = drawer.querySelector('.cart-drawer-title');
-      if (!title) return;
-      title.textContent = count > 0 ? 'Cart (' + count + ')' : 'Cart';
+      if (title) {
+        title.textContent = count > 0 ? 'Cart (' + count + ')' : 'Cart';
+      }
+
+      if (typeof window.updateHeaderCartCount === 'function') {
+        window.updateHeaderCartCount(count);
+      }
     }
 
     function updateCartLine(lineKey, quantity) {

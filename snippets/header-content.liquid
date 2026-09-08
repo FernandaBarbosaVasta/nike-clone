@@ -61,7 +61,12 @@
       </form>
     {%- endif -%}
 
-    <a href="{{ routes.cart_url }}" class="cart-nav" data-cart-drawer-open aria-label="Open cart">
+    <a
+      href="{{ routes.cart_url }}"
+      class="cart-nav"
+      data-cart-drawer-open
+      aria-label="{% if cart.item_count > 0 %}Open cart, {{ cart.item_count }} items{% else %}Open cart{% endif %}"
+    >
       {%- if section.settings.cart_icon != blank -%}
         <img
           class="shopping-img"
@@ -69,7 +74,7 @@
           height="{{ cart_icon_size }}"
           loading="lazy"
           src="{{ section.settings.cart_icon | image_url: width: 80 }}"
-          alt="Cart"
+          alt=""
         >
       {%- else -%}
         <img
@@ -78,9 +83,10 @@
           height="{{ cart_icon_size }}"
           loading="lazy"
           src="{{ 'd-removebg.png' | asset_url }}"
-          alt="Cart"
+          alt=""
         >
       {%- endif -%}
+      <span class="cart-nav-count" data-cart-count{% unless cart.item_count > 0 %} hidden{% endunless %}>{{ cart.item_count }}</span>
     </a>
   </div>
 </header>
@@ -155,6 +161,7 @@
   }
 
   .cart-nav {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -168,6 +175,27 @@
     line-height: 0;
     align-self: center;
     transform: translateY(-2px);
+  }
+
+  .cart-nav-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #000;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .cart-nav-count[hidden] {
+    display: none;
   }
 
   .search-nav::placeholder {
@@ -295,3 +323,25 @@
     }
   }
 </style>
+
+<script>
+  window.updateHeaderCartCount = function (count) {
+    var safeCount = parseInt(count, 10) || 0;
+
+    document.querySelectorAll('[data-cart-count]').forEach(function (el) {
+      if (safeCount > 0) {
+        el.textContent = safeCount;
+        el.hidden = false;
+      } else {
+        el.hidden = true;
+      }
+    });
+
+    document.querySelectorAll('[data-cart-drawer-open]').forEach(function (el) {
+      el.setAttribute(
+        'aria-label',
+        safeCount > 0 ? 'Open cart, ' + safeCount + ' items' : 'Open cart'
+      );
+    });
+  };
+</script>
