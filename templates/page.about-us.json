@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "about-us": {
+      "type": "about-us",
+      "settings": {}
+    }
+  },
+  "order": [
+    "about-us"
+  ]
+}

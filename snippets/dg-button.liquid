@@ -1,0 +1,20 @@
+{% doc %}
+  Primary add-to-cart button. The label may contain the tokens [price] and [count].
+
+  @param {string} label - Label template
+  @param {string} price - Formatted price that replaces [price]
+  @param {string} count - Item count that replaces [count]
+  @param {string} can_add - "yes" when at least one selected variant can be added
+
+  @example
+  {% render 'dg-button', label: '[price] - ADD TO CART ([count] ITEMS)', price: '$64.96', count: '4', can_add: 'yes' %}
+{% enddoc %}
+
+{% assign button_label = label | replace: '[price]', price | replace: '[count]', count %}
+
+<button type="submit" name="add" class="dg-atc" data-dg-atc {% if can_add != 'yes' %}disabled{% endif %}>
+  <span data-dg-atc-label>
+    {% if can_add == 'yes' %}{{ button_label }}{% else %}ADD TO CART{% endif %}
+  </span>
+  <img src="{{ 'dg-icon-cart.svg' | asset_url }}" alt="" width="24" height="23">
+</button>

@@ -1,0 +1,163 @@
+{
+  "sections": {
+    "dg_bundle": {
+      "type": "dg-bundle-product",
+      "blocks": {
+        "uvp_squeak": {
+          "type": "uvp",
+          "settings": {
+            "label": "Squeaker sound",
+            "fallback_asset": "dg-icon-squeak.svg"
+          }
+        },
+        "uvp_durable": {
+          "type": "uvp",
+          "settings": {
+            "label": "Durability",
+            "fallback_asset": "dg-icon-durable.svg"
+          }
+        },
+        "uvp_safe": {
+          "type": "uvp",
+          "settings": {
+            "label": "Pet-safe",
+            "fallback_asset": "dg-icon-safe.svg"
+          }
+        },
+        "uvp_shape": {
+          "type": "uvp",
+          "settings": {
+            "label": "Fun silhouette",
+            "fallback_asset": "dg-icon-silhouette.svg"
+          }
+        },
+        "tier_4": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 4,
+            "discount": 15,
+            "pack_label": "4-pack",
+            "save_label": "Save $15",
+            "image_badge": "4-pack: Save $15"
+          }
+        },
+        "tier_5": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 5,
+            "discount": 20,
+            "pack_label": "5-pack",
+            "save_label": "Save $20",
+            "image_badge": "5-pack: Save $20"
+          }
+        },
+        "tier_6": {
+          "type": "tier",
+          "settings": {
+            "min_qty": 6,
+            "discount": 30,
+            "pack_label": "6-pack",
+            "save_label": "Save $30",
+            "image_badge": "6-pack: Save $30"
+          }
+        },
+        "item_blue": {
+          "type": "item",
+          "settings": {
+            "title": "FuzzyBallz Blue - M",
+            "fallback_asset": "dg-toy-fuzzy-blue.webp",
+            "quantity": 4,
+            "badge": "Best Seller"
+          }
+        },
+        "item_quacker": {
+          "type": "item",
+          "settings": {
+            "title": "Quacker Jack",
+            "subtitle": "(Small Duck)",
+            "fallback_asset": "dg-toy-quacker.webp",
+            "quantity": 0
+          }
+        },
+        "item_green": {
+          "type": "item",
+          "settings": {
+            "title": "FuzzyBallz Green - M",
+            "fallback_asset": "dg-toy-fuzzy-green.webp",
+            "quantity": 0
+          }
+        },
+        "item_hare": {
+          "type": "item",
+          "settings": {
+            "title": "Prince Hare-y",
+            "subtitle": "(Large Bunny)",
+            "fallback_asset": "dg-toy-hare.webp",
+            "quantity": 0
+          }
+        },
+        "item_chicken": {
+          "type": "item",
+          "settings": {
+            "title": "Mother Clucker",
+            "subtitle": "(Large Chicken)",
+            "fallback_asset": "dg-toy-chicken.webp",
+            "quantity": 0
+          }
+        },
+        "item_flyer": {
+          "type": "item",
+          "settings": {
+            "title": "Xtreme Flyer",
+            "fallback_asset": "dg-toy-flyer.webp",
+            "quantity": 0
+          }
+        },
+        "acc_description": {
+          "type": "accordion",
+          "settings": {
+            "title": "Description",
+            "open": true,
+            "content": "<p><strong>Squish it, squeak it, carry it, chase it.</strong> Dogs go absolutely bonkers for our new toys, made for prey play, fetch and loads of fun.</p><p>Meet the cast: Mother Clucker, Quacker Jack and Prince Hare-y bring the squeaks and grunts. The FuzzyBallz bring the fluff: squeaky, furry balls dogs can't get enough of. The Xtreme Flyer is our soft frisbee that floats and is gentle on their mouths.</p><p>Mix and match your own dog toy bundle, for your pup or the dog-lover in your life. ❤️</p><p>DogGoods Do Good™. Be the hero your dog thinks you are.</p>"
+          }
+        },
+        "acc_shipping": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping & Returns",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "uvp_squeak",
+        "uvp_durable",
+        "uvp_safe",
+        "uvp_shape",
+        "tier_4",
+        "tier_5",
+        "tier_6",
+        "item_blue",
+        "item_quacker",
+        "item_green",
+        "item_hare",
+        "item_chicken",
+        "item_flyer",
+        "acc_description",
+        "acc_shipping"
+      ],
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "background": "#000000",
+        "text_color": "#F4F4F4"
+      }
+    }
+  },
+  "order": [
+    "dg_bundle",
+    "footer"
+  ]
+}
