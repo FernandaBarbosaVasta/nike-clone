@@ -1,3 +1,16 @@
 {
-    
+  "sections": {
+    "main": {
+      "type": "more-info",
+      "settings": {
+        "background": "#f4f4f4",
+        "text_color": "#000000",
+        "text": "default text",
+        "text2": "default text"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
 }

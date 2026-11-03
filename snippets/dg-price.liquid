@@ -1,0 +1,24 @@
+{% doc %}
+  Renders the bundle price: compare-at, sale price, and the save badge.
+  Prices are cents. A zero sale renders an em dash until a product is selected.
+
+  @param {number} compare_cents - Sum of selected line prices, before the tier discount
+  @param {number} sale_cents - Price after the active tier discount
+  @param {number} save_cents - Active tier discount
+  @param {string} [save_label] - Badge copy, for example Save $15
+
+  @example
+  {% render 'dg-price', compare_cents: 7896, sale_cents: 6496, save_cents: 1500, save_label: 'Save $15' %}
+{% enddoc %}
+
+<p class="dg-price">
+  <s class="dg-price__compare" data-dg-compare {% if compare_cents <= sale_cents or sale_cents <= 0 %}hidden{% endif %}>
+    {{ compare_cents | money }}
+  </s>
+  <span class="dg-price__sale price" data-dg-sale>
+    {% if sale_cents > 0 %}{{ sale_cents | money }}{% else %}—{% endif %}
+  </span>
+  <span class="dg-price__badge" data-dg-save {% if save_cents <= 0 or sale_cents <= 0 %}hidden{% endif %}>
+    {% if save_label != blank %}{{ save_label }}{% else %}Save {{ save_cents | money }}{% endif %}
+  </span>
+</p>
