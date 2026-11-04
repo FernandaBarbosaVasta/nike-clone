@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "dg_bundle": {
@@ -64,7 +73,9 @@
         "item_blue": {
           "type": "item",
           "settings": {
+            "product": "",
             "title": "FuzzyBallz Blue - M",
+            "subtitle": "",
             "fallback_asset": "dg-toy-fuzzy-blue.webp",
             "quantity": 4,
             "badge": "Best Seller"
@@ -73,58 +84,71 @@
         "item_quacker": {
           "type": "item",
           "settings": {
+            "product": "",
             "title": "Quacker Jack",
             "subtitle": "(Small Duck)",
             "fallback_asset": "dg-toy-quacker.webp",
-            "quantity": 0
+            "quantity": 0,
+            "badge": ""
           }
         },
         "item_green": {
           "type": "item",
           "settings": {
+            "product": "",
             "title": "FuzzyBallz Green - M",
+            "subtitle": "",
             "fallback_asset": "dg-toy-fuzzy-green.webp",
-            "quantity": 0
+            "quantity": 0,
+            "badge": ""
           }
         },
         "item_hare": {
           "type": "item",
           "settings": {
+            "product": "",
             "title": "Prince Hare-y",
             "subtitle": "(Large Bunny)",
             "fallback_asset": "dg-toy-hare.webp",
-            "quantity": 0
+            "quantity": 0,
+            "badge": ""
           }
         },
         "item_chicken": {
           "type": "item",
           "settings": {
+            "product": "",
             "title": "Mother Clucker",
             "subtitle": "(Large Chicken)",
             "fallback_asset": "dg-toy-chicken.webp",
-            "quantity": 0
+            "quantity": 0,
+            "badge": ""
           }
         },
         "item_flyer": {
           "type": "item",
           "settings": {
+            "product": "",
             "title": "Xtreme Flyer",
+            "subtitle": "",
             "fallback_asset": "dg-toy-flyer.webp",
-            "quantity": 0
+            "quantity": 0,
+            "badge": ""
           }
         },
         "acc_description": {
           "type": "accordion",
           "settings": {
             "title": "Description",
-            "open": true,
-            "content": "<p><strong>Squish it, squeak it, carry it, chase it.</strong> Dogs go absolutely bonkers for our new toys, made for prey play, fetch and loads of fun.</p><p>Meet the cast: Mother Clucker, Quacker Jack and Prince Hare-y bring the squeaks and grunts. The FuzzyBallz bring the fluff: squeaky, furry balls dogs can't get enough of. The Xtreme Flyer is our soft frisbee that floats and is gentle on their mouths.</p><p>Mix and match your own dog toy bundle, for your pup or the dog-lover in your life. ❤️</p><p>DogGoods Do Good™. Be the hero your dog thinks you are.</p>"
+            "content": "<p><strong>Squish it, squeak it, carry it, chase it.</strong> Dogs go absolutely bonkers for our new toys, made for prey play, fetch and loads of fun.</p><p>Meet the cast: Mother Clucker, Quacker Jack and Prince Hare-y bring the squeaks and grunts. The FuzzyBallz bring the fluff: squeaky, furry balls dogs can't get enough of. The Xtreme Flyer is our soft frisbee that floats and is gentle on their mouths.</p><p>Mix and match your own dog toy bundle, for your pup or the dog-lover in your life. ❤️</p><p>DogGoods Do Good™. Be the hero your dog thinks you are.</p>",
+            "open": true
           }
         },
         "acc_shipping": {
           "type": "accordion",
           "settings": {
             "title": "Shipping & Returns",
+            "content": "<p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry.&nbsp;</p><p>Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.&nbsp;</p><p>It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.</p>",
             "open": false
           }
         }
@@ -146,13 +170,32 @@
         "acc_description",
         "acc_shipping"
       ],
-      "settings": {}
+      "settings": {
+        "home_label": "Home",
+        "breadcrumb": "Squeaky Travel Dog Toys | Shop DogGoods™",
+        "heading": "Fun Dog Toy by DogGoods ™",
+        "subheading": "Squeaky dog toys with personality, built to last and safe for every chew.",
+        "review_label": "9 reviews",
+        "bundle_label": "Bundle with",
+        "atc_label": "[price] - ADD TO CART ([count] ITEMS)",
+        "add_label": "ADD",
+        "smaller_lead": "Looking for smaller quantities?",
+        "smaller_label": "Find them here.",
+        "smaller_tail": "🐾",
+        "smaller_url": "",
+        "video_heading": "Watch the Toys in Action",
+        "video_url": "",
+        "prev_label": "Previous image",
+        "next_label": "Next image",
+        "decrease_label": "Remove one",
+        "increase_label": "Add one"
+      }
     },
     "footer": {
       "type": "footer",
       "settings": {
         "background": "#000000",
-        "text_color": "#F4F4F4"
+        "text_color": "#f4f4f4"
       }
     }
   },
