@@ -92,6 +92,7 @@
       if (label) label.textContent = String(qty);
       if (stepper) stepper.hidden = qty <= 0;
       if (add) add.hidden = qty > 0;
+      card.classList.toggle('is-selected', qty > 0);
     }
 
     function render() {
@@ -125,7 +126,9 @@
 
       var fill = root.querySelector('[data-dg-fill]');
       if (fill) {
-        var pct = tiers.length ? Math.round((hit / tiers.length) * 100) : 0;
+        var pct = 0;
+        if (hit > 0 && tiers.length > 1) pct = Math.min(100, Math.round(((hit - 0.5) / (tiers.length - 1)) * 100));
+        else if (hit > 0) pct = 100;
         fill.style.width = pct + '%';
       }
 

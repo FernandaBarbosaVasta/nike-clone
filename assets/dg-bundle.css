@@ -182,10 +182,12 @@
 }
 
 .dg-uvps {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 5px;
-  margin-top: 10px;
+  margin: 0;
+  padding: 10px 0 20px;
+  list-style: none;
 }
 
 .dg-uvp {
@@ -194,6 +196,8 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+  flex: 0 1 81px;
+  min-width: 0;
   min-height: 90px;
   padding: 8px 4px;
   border: 1px solid var(--dg-tan);
@@ -251,7 +255,7 @@
 
 .dg-price__compare {
   color: var(--dg-muted);
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
   text-decoration: line-through;
@@ -259,7 +263,7 @@
 
 .dg-price__sale {
   color: var(--dg-orange);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.17;
 }
@@ -290,7 +294,7 @@
   align-items: center;
   gap: 5px;
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
   text-transform: uppercase;
@@ -314,20 +318,23 @@
 }
 
 .dg-progress {
+  --dg-grey: #c5c5c5;
   position: relative;
   margin-top: 10px;
-  padding: 10px 8px 8px;
+  padding: 7px 0 7px;
   border-radius: 8px;
   background: rgba(96, 57, 22, 0.07);
 }
 
+/* The track runs from the first marker centre to the last one. */
 .dg-progress__track {
   position: absolute;
   z-index: 0;
-  top: 42px;
-  left: 12%;
-  right: 12%;
+  top: 46px;
+  left: calc(50% / var(--dg-tiers, 3));
+  right: calc(50% / var(--dg-tiers, 3));
   height: 3px;
+  overflow: hidden;
   border-radius: 999px;
   background: #fff;
 }
@@ -335,7 +342,6 @@
 .dg-progress__fill {
   width: var(--dg-fill, 0%);
   height: 100%;
-  border-radius: 999px;
   background: var(--dg-green);
 }
 
@@ -353,38 +359,53 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
   text-align: center;
 }
 
 .dg-progress__save {
   padding: 4px 8px;
-  color: var(--dg-green);
+  border-radius: 999px;
+  background: var(--dg-grey);
+  color: #fff;
   font-size: 12px;
   font-weight: 700;
-  line-height: 1;
+  line-height: 12px;
 }
 
-.dg-progress__tier.is-reached .dg-progress__save {
-  border-radius: 999px;
-  background: var(--dg-green);
-  color: #fff;
-}
+.dg-progress__tier.is-reached .dg-progress__save { background: var(--dg-green); }
 
 .dg-progress__mark {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--dg-green);
+  position: relative;
+  width: 27px;
+  height: 27px;
+  margin-top: 8px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--dg-grey);
 }
 
 .dg-progress__tier.is-reached .dg-progress__mark { background: var(--dg-green); }
 
-.dg-progress__name {
-  font-size: 12px;
-  line-height: 1.2;
+.dg-progress__tier.is-reached .dg-progress__mark::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
+
+.dg-progress__name {
+  padding: 4px 0;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.dg-progress__tier.is-reached .dg-progress__name { color: var(--dg-green); }
 
 .dg-items {
   display: grid;
@@ -394,16 +415,22 @@
 }
 
 .dg-card {
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
+  gap: 4px;
   min-width: 0;
+  min-height: 175px;
   padding: 0 0 10px;
   border: 1px solid var(--dg-gold);
   border-radius: 8px;
   background: #fff;
   overflow: hidden;
 }
+
+.dg-card.is-selected { background: rgba(247, 133, 17, 0.06); }
 
 .dg-card__media {
   display: flex;
@@ -420,57 +447,72 @@
 }
 
 .dg-card__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 37px;
   margin: 0;
-  padding: 8px 8px 4px;
+  padding: 10px 8px;
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.2;
   text-align: center;
   overflow-wrap: anywhere;
 }
 
 .dg-card__badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin: 0 0 6px;
-  color: var(--dg-orange);
+  gap: 3px;
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 0 2px 2px 0;
+  background: var(--dg-orange);
+  color: #fff;
   font-size: 12px;
   font-weight: 700;
+  line-height: 1.4;
 }
 
 .dg-card__badge img {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
 }
 
 .dg-add {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  margin-top: auto;
-  padding: 6px 20px;
+  gap: 8px;
+  padding: 5px 18px;
   border: 0;
-  border-radius: 9px;
+  border-radius: 8px;
   background: var(--dg-orange);
   color: #fff;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.2;
   cursor: pointer;
 }
 
 .dg-add img {
-  width: 11px;
-  height: 11px;
+  width: 9px;
+  height: 9px;
 }
 
 .dg-qty {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: auto;
+  justify-content: space-between;
+  width: 84px;
+  height: 27px;
 }
+
+.dg-qty[hidden],
+.dg-add[hidden] { display: none; }
 
 .dg-qty button {
   margin: 0;
@@ -482,13 +524,16 @@
 }
 
 .dg-qty button img {
-  width: 27px;
-  height: 27px;
+  width: 24px;
+  height: 24px;
 }
 
 .dg-qty span {
   min-width: 1ch;
-  font-size: 16px;
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
   text-align: center;
 }
 
@@ -498,7 +543,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 5px;
   width: 100%;
   min-height: 56px;
   padding: 16px 20px;
@@ -508,15 +553,16 @@
   color: #fff;
   font-family: inherit;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.1;
   text-align: center;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
 .dg-atc img {
-  width: 24px;
-  height: 23px;
+  width: 18px;
+  height: 18px;
   flex: 0 0 auto;
 }
 
@@ -557,6 +603,16 @@
   border-radius: 13px;
   background: #111;
   aspect-ratio: 597 / 336;
+}
+
+[data-dg-poster] { position: relative; height: 100%; }
+
+[data-dg-poster]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.51);
+  pointer-events: none;
 }
 
 .dg-video__frame img,
@@ -635,7 +691,6 @@ details[open] .dg-acc__chevron { transform: none; }
 @media (min-width: 768px) {
   .dg-bundle { padding: 16px 32px 40px; }
   .dg-items { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .dg-card__title { font-size: 16px; }
 }
 
 @media (min-width: 1020px) {
@@ -643,24 +698,34 @@ details[open] .dg-acc__chevron { transform: none; }
   .dg-crumbs { margin-bottom: 16px; font-size: 16px; }
   .dg-bundle__grid {
     display: grid;
-    grid-template-columns: minmax(0, 566px) minmax(280px, 597px);
+    grid-template-columns: minmax(0, 566fr) minmax(0, 597fr);
     column-gap: 40px;
     align-items: start;
-    justify-content: space-between;
   }
   .dg-bundle__media { position: sticky; top: 12px; }
   .dg-gallery__stage { border-radius: 7px; aspect-ratio: 566 / 610; }
-  .dg-badges { top: 25px; left: 30px; gap: 8px; }
-  .dg-badges span { padding: 18px 11px; border-radius: 2px; font-size: 18px; }
+  .dg-badges { top: clamp(12px, 1.75vw, 25px); left: clamp(12px, 2.1vw, 30px); gap: clamp(4px, 0.55vw, 8px); flex-wrap: nowrap; max-width: calc(100% - 24px); }
+  .dg-badges span { padding: clamp(9px, 1.25vw, 18px) clamp(6px, 0.78vw, 11px); border-radius: 2px; font-size: clamp(11px, 1.25vw, 18px); white-space: nowrap; }
   .dg-thumb { flex-basis: 82px; width: 82px; height: 82px; }
-  .dg-uvp { min-height: 135px; gap: 11px; font-size: 16px; }
-  .dg-uvp img { width: 60px; height: 60px; }
+  .dg-uvps { flex-wrap: nowrap; justify-content: center; gap: 9px; max-width: 566px; margin: 10px auto 0; padding: 0; }
+  .dg-uvp { flex: 0 1 135px; min-width: 0; min-height: 135px; gap: 11px; font-size: clamp(13px, 1.16vw, 16.68px); }
+  .dg-uvp img { width: clamp(44px, 4.2vw, 60px); height: clamp(44px, 4.2vw, 60px); }
   .dg-reviews { gap: 3px; font-size: 16px; }
   .dg-reviews img { width: 83px; height: 15px; }
   .dg-title { font-size: 32px; }
+  .dg-price__compare { font-size: 20px; }
   .dg-price__sale { font-size: 30px; }
+  .dg-card { min-height: 178px; }
+  .dg-card__title { font-size: 16px; }
+  .dg-add { padding: 5.6px 20px; border-radius: 9px; gap: 9px; font-size: 16px; }
+  .dg-add img { width: 10px; height: 10px; }
+  .dg-qty { width: 94px; height: 30px; }
+  .dg-qty button img { width: 27px; height: 27px; }
+  .dg-qty span { font-size: 16px; }
+  .dg-progress { padding-top: 6px; }
   .dg-bundle__label { font-size: 20px; }
-  .dg-atc { min-height: 75px; gap: 28px; font-size: 24px; }
+  .dg-atc { min-height: 75px; gap: 28px; font-size: 24px; font-weight: 700; text-transform: none; }
+  .dg-atc img { width: 24px; height: 23px; }
   .dg-smaller { font-size: 18px; }
   .dg-acc__item summary { font-size: 20px; }
 }

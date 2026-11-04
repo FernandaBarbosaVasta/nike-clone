@@ -55,8 +55,12 @@
     {% assign sale = 0 %}
   {% endif %}
   {% assign fill_pct = 0 %}
-  {% if tier_count > 0 %}
-    {% assign fill_pct = tier_hit | times: 100 | divided_by: tier_count %}
+  {% if tier_count > 1 and tier_hit > 0 %}
+    {% assign tier_gaps = tier_count | minus: 1 %}
+    {% assign fill_pct = tier_hit | times: 2 | minus: 1 | times: 50 | divided_by: tier_gaps %}
+    {% if fill_pct > 100 %}{% assign fill_pct = 100 %}{% endif %}
+  {% elsif tier_count == 1 and tier_hit > 0 %}
+    {% assign fill_pct = 100 %}
   {% endif %}
   {% if priced_qty > 0 %}
     {% assign can_add = 'yes' %}
@@ -288,7 +292,7 @@
                   {% assign card_title = card_product.title %}
                 {% endif %}
                 <article
-                  class="dg-card"
+                  class="dg-card{% if block.settings.quantity > 0 %} is-selected{% endif %}"
                   data-dg-item
                   data-qty="{{ block.settings.quantity }}"
                   data-price="{{ variant_price }}"
@@ -312,18 +316,19 @@
                       >
                     {% endif %}
                   </div>
+                  {% if block.settings.badge != blank %}
+                    <p class="dg-card__badge">
+                      <img src="{{ 'dg-icon-badge.svg' | asset_url }}" alt="" width="15" height="15">
+                      {{ block.settings.badge }}
+                    </p>
+                  {% endif %}
                   <h3 class="dg-card__title">
                     {{ card_title }}
                     {% if block.settings.subtitle != blank %}
                       <br>{{ block.settings.subtitle }}
                     {% endif %}
                   </h3>
-                  {% if block.settings.badge != blank %}
-                    <p class="dg-card__badge">
-                      <img src="{{ 'dg-icon-badge.svg' | asset_url }}" alt="" width="14" height="14">
-                      {{ block.settings.badge }}
-                    </p>
-                  {% endif %}
+
                   <div class="dg-qty" data-dg-stepper {% if block.settings.quantity == 0 %}hidden{% endif %}>
                     <button type="button" data-dg-dec aria-label="{{ section.settings.decrease_label }}">
                       <img src="{{ 'dg-icon-minus.svg' | asset_url }}" alt="" width="27" height="27">
