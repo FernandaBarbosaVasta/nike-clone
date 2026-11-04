@@ -19,10 +19,12 @@
     {% if block.type == 'item' %}
       {% assign visual_qty = visual_qty | plus: block.settings.quantity %}
       {% if block.settings.product != blank and block.settings.quantity > 0 %}
-        {% assign line_variant = block.settings.product.selected_or_first_available_variant %}
-        {% assign line_total = line_variant.price | times: block.settings.quantity %}
-        {% assign subtotal = subtotal | plus: line_total %}
-        {% assign priced_qty = priced_qty | plus: block.settings.quantity %}
+        {% assign line_variant = block.settings.product.first_available_variant %}
+        {% if line_variant != blank %}
+          {% assign line_total = line_variant.price | times: block.settings.quantity %}
+          {% assign subtotal = subtotal | plus: line_total %}
+          {% assign priced_qty = priced_qty | plus: block.settings.quantity %}
+        {% endif %}
       {% endif %}
     {% endif %}
   {% endfor %}
@@ -283,9 +285,11 @@
                 {% assign variant_price = 0 %}
                 {% assign variant_id = '' %}
                 {% if card_product != blank %}
-                  {% assign card_variant = card_product.selected_or_first_available_variant %}
-                  {% assign variant_price = card_variant.price %}
-                  {% assign variant_id = card_variant.id %}
+                  {% assign card_variant = card_product.first_available_variant %}
+                  {% if card_variant != blank %}
+                    {% assign variant_price = card_variant.price %}
+                    {% assign variant_id = card_variant.id %}
+                  {% endif %}
                 {% endif %}
                 {% assign card_title = block.settings.title %}
                 {% if card_title == blank and card_product != blank %}
@@ -349,9 +353,8 @@
         </div>
 
         {% form 'product', product, class: 'product-form dg-form' %}
-          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-          <input type="hidden" name="quantity" value="1">
           {% render 'dg-button', label: section.settings.atc_label, price: sale_money, count: priced_qty, can_add: can_add %}
+          <p class="dg-form-error" data-dg-error hidden role="alert"></p>
         {% endform %}
 
         <p class="dg-smaller">

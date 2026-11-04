@@ -539,6 +539,17 @@
 
 .dg-form { margin: 16px 0 0; }
 
+.dg-form-error {
+  margin: 10px 0 0;
+  color: #b42318;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.dg-form-error[hidden] {
+  display: none;
+}
+
 .dg-atc {
   display: flex;
   align-items: center;

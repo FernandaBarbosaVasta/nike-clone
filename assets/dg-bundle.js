@@ -195,30 +195,62 @@
       });
     }
 
+    function buildCartItems() {
+      var merged = {};
+      var nodes = root.querySelectorAll('[data-dg-item]');
+      for (var i = 0; i < nodes.length; i++) {
+        var qty = Number(nodes[i].getAttribute('data-qty') || 0);
+        var id = nodes[i].getAttribute('data-variant');
+        if (qty > 0 && id) merged[id] = (merged[id] || 0) + qty;
+      }
+      return Object.keys(merged).map(function (id) {
+        return { id: Number(id), quantity: merged[id] };
+      });
+    }
+
+    function showCartError(message) {
+      var errorEl = root.querySelector('[data-dg-error]');
+      if (!errorEl) return;
+      if (message) {
+        errorEl.textContent = message;
+        errorEl.hidden = false;
+      } else {
+        errorEl.textContent = '';
+        errorEl.hidden = true;
+      }
+    }
+
     var form = root.querySelector('form.dg-form');
     if (form) {
       form.addEventListener('submit', function (event) {
-        var items = [];
-        var nodes = root.querySelectorAll('[data-dg-item]');
-        for (var i = 0; i < nodes.length; i++) {
-          var qty = Number(nodes[i].getAttribute('data-qty') || 0);
-          var id = nodes[i].getAttribute('data-variant');
-          if (qty > 0 && id) items.push({ id: Number(id), quantity: qty });
-        }
-        if (!items.length) return;
         event.preventDefault();
+        showCartError('');
+        var items = buildCartItems();
+        if (!items.length) return;
         var button = root.querySelector('[data-dg-atc]');
         if (button) button.disabled = true;
         fetch(config.addUrl || '/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          credentials: 'same-origin',
           body: JSON.stringify({ items: items })
         }).then(function (response) {
-          if (!response.ok) throw new Error('cart');
+          return response.json().then(function (body) {
+            if (!response.ok) {
+              var err = new Error(body && body.message ? body.message : 'Could not add to cart');
+              err.body = body;
+              throw err;
+            }
+            return body;
+          });
+        }).then(function (cart) {
+          if (typeof window.updateHeaderCartCount === 'function' && cart && typeof cart.item_count === 'number') {
+            window.updateHeaderCartCount(cart.item_count);
+          }
           window.location.href = config.cartUrl || '/cart';
-        }).catch(function () {
+        }).catch(function (error) {
           if (button) button.disabled = false;
-          form.submit();
+          showCartError(error && error.message ? error.message : 'Could not add to cart.');
         });
       });
     }
