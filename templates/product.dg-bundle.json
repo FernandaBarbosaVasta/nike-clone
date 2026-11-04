@@ -73,7 +73,7 @@
         "item_blue": {
           "type": "item",
           "settings": {
-            "product": "",
+            "product": "nike-air-force-1-07-low",
             "title": "FuzzyBallz Blue - M",
             "subtitle": "",
             "fallback_asset": "dg-toy-fuzzy-blue.webp",
@@ -84,7 +84,7 @@
         "item_quacker": {
           "type": "item",
           "settings": {
-            "product": "",
+            "product": "chain-bracelet",
             "title": "Quacker Jack",
             "subtitle": "(Small Duck)",
             "fallback_asset": "dg-toy-quacker.webp",
@@ -95,7 +95,7 @@
         "item_green": {
           "type": "item",
           "settings": {
-            "product": "",
+            "product": "choker-with-bead",
             "title": "FuzzyBallz Green - M",
             "subtitle": "",
             "fallback_asset": "dg-toy-fuzzy-green.webp",
@@ -106,7 +106,7 @@
         "item_hare": {
           "type": "item",
           "settings": {
-            "product": "",
+            "product": "nike-air-force-1-shadow",
             "title": "Prince Hare-y",
             "subtitle": "(Large Bunny)",
             "fallback_asset": "dg-toy-hare.webp",
@@ -117,7 +117,7 @@
         "item_chicken": {
           "type": "item",
           "settings": {
-            "product": "",
+            "product": "clay-plant-pot",
             "title": "Mother Clucker",
             "subtitle": "(Large Chicken)",
             "fallback_asset": "dg-toy-chicken.webp",
@@ -128,7 +128,7 @@
         "item_flyer": {
           "type": "item",
           "settings": {
-            "product": "",
+            "product": "knitted-throw-pillows",
             "title": "Xtreme Flyer",
             "subtitle": "",
             "fallback_asset": "dg-toy-flyer.webp",
