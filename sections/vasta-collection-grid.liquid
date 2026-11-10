@@ -186,7 +186,9 @@
                 {%- endif -%}
 
                 <li>
-                  {%- render 'vasta-product-card', product: product, lazy: forloop.index > 4 -%}
+                  {%- assign card_lazy = false -%}
+                  {%- if forloop.index > 4 -%}{%- assign card_lazy = true -%}{%- endif -%}
+                  {%- render 'vasta-product-card', product: product, lazy: card_lazy -%}
                 </li>
               {%- endfor -%}
             </ul>
