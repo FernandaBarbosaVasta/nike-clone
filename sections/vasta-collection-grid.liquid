@@ -1,0 +1,269 @@
+{% render 'vasta-collection-base' %}
+
+{%- paginate collection.products by section.settings.products_per_page -%}
+  {%- liquid
+    assign sort_by = collection.sort_by | default: collection.default_sort_by
+    assign first_item = paginate.current_offset | plus: 1
+    assign last_item = paginate.current_offset | plus: collection.products.size
+    if collection.products.size == 0
+      assign first_item = 0
+    endif
+    assign show_promo = false
+    if section.settings.show_promo and paginate.current_page == 1 and collection.products.size > 0
+      assign show_promo = true
+    endif
+    assign promo_position = section.settings.promo_position | at_least: 1
+  -%}
+
+  <section
+    class="vasta-c vasta-grid"
+    data-vasta-grid
+    data-section-id="{{ section.id }}"
+    {{ section.shopify_attributes }}
+  >
+    <div class="vasta-c__container">
+      <div class="vasta-toolbar">
+        <nav aria-label="Breadcrumb" class="vasta-crumbs-wrap" style="display: contents">
+          <ol class="vasta-crumbs">
+            <li><a href="{{ routes.root_url }}">Home</a></li>
+            <li aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M4 1.5 8.5 6 4 10.5" stroke="currentColor" stroke-width="1.2"/></svg>
+            </li>
+            <li><span aria-current="page">{{ collection.title }}</span></li>
+          </ol>
+        </nav>
+
+        <p class="vasta-toolbar__count">
+          Showing <span data-vasta-count-start>{{ first_item }}</span> -
+          <span data-vasta-count-end>{{ last_item }}</span> of {{ paginate.items }} items
+        </p>
+
+        <div class="vasta-toolbar__right">
+          <label class="vasta-sort">
+            <span>Sort By:</span>
+            <select data-vasta-sort aria-label="Sort by">
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>
+                  {{- option.name -}}
+                </option>
+              {%- endfor -%}
+            </select>
+          </label>
+
+          {%- if collection.filters.size > 0 -%}
+            <button
+              type="button"
+              class="vasta-filter-toggle"
+              data-vasta-filter-toggle
+              aria-expanded="false"
+              aria-controls="vasta-filters-{{ section.id }}"
+            >
+              <span class="vasta-c__visually-hidden">Filters</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 7h10M17 7h4M3 17h4M11 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="15" cy="7" r="2" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="9" cy="17" r="2" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="vasta-layout">
+        {%- if collection.filters.size > 0 -%}
+          <div class="vasta-filters__overlay" data-vasta-overlay></div>
+          <aside class="vasta-filters" id="vasta-filters-{{ section.id }}" data-vasta-filters aria-label="Filters">
+            <div class="vasta-filters__head">
+              <span>Filters</span>
+              <button type="button" class="vasta-filters__close" data-vasta-filter-close aria-label="Close filters">&times;</button>
+            </div>
+
+            <form method="get" action="{{ collection.url }}">
+              {%- if collection.sort_by != blank -%}
+                <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+              {%- endif -%}
+
+              {%- for filter in collection.filters -%}
+                <details class="vasta-fgroup" open>
+                  <summary class="vasta-fgroup__summary">{{ filter.label | escape }}</summary>
+
+                  {%- case filter.type -%}
+                    {%- when 'price_range' -%}
+                      <div class="vasta-price">
+                        <label>
+                          Min
+                          <input
+                            type="number"
+                            name="{{ filter.min_value.param_name }}"
+                            value="{{ filter.min_value.value | money_without_currency | remove: ',' }}"
+                            placeholder="0"
+                            min="0"
+                            max="{{ filter.range_max | money_without_currency | remove: ',' }}"
+                            inputmode="decimal"
+                          >
+                        </label>
+                        <label>
+                          Max
+                          <input
+                            type="number"
+                            name="{{ filter.max_value.param_name }}"
+                            value="{{ filter.max_value.value | money_without_currency | remove: ',' }}"
+                            placeholder="{{ filter.range_max | money_without_currency | remove: ',' }}"
+                            min="0"
+                            inputmode="decimal"
+                          >
+                        </label>
+                      </div>
+                    {%- else -%}
+                      <ul class="vasta-fgroup__values">
+                        {%- for value in filter.values -%}
+                          <li>
+                            <label class="vasta-chip">
+                              <input
+                                type="checkbox"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                {% if value.active %}checked{% endif %}
+                                {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                              >
+                              <span>{{ value.label | escape }}</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                  {%- endcase -%}
+                </details>
+              {%- endfor -%}
+
+              <button type="submit" class="vasta-btn-outline">Apply</button>
+              {%- if collection.filters.size > 0 and collection.url != request.path -%}
+                <a class="vasta-filters__clear" href="{{ collection.url }}{% if collection.sort_by != blank %}?sort_by={{ collection.sort_by }}{% endif %}">Clear all</a>
+              {%- endif -%}
+            </form>
+          </aside>
+        {%- endif -%}
+
+        <div class="vasta-results">
+          {%- if collection.products.size == 0 -%}
+            <p class="vasta-grid__empty">No products found.</p>
+          {%- else -%}
+            <ul class="vasta-products" data-vasta-products role="list">
+              {%- for product in collection.products -%}
+                {%- if show_promo and forloop.index == promo_position -%}
+                  <li>
+                    <div class="vasta-promo">
+                      <div class="vasta-promo__fx">
+                        <img src="{{ 'vasta-texture.webp' | asset_url }}" width="220" height="220" alt="" loading="lazy">
+                      </div>
+                      <h2 class="vasta-promo__title">{{ section.settings.promo_title }}</h2>
+                      <p class="vasta-promo__text">{{ section.settings.promo_text }}</p>
+                      {%- if section.settings.promo_image != blank -%}
+                        {{
+                          section.settings.promo_image
+                          | image_url: width: 320
+                          | image_tag: class: 'vasta-promo__img', widths: '140, 160, 280, 320', sizes: '160px', loading: 'lazy', alt: ''
+                        }}
+                      {%- else -%}
+                        {%- assign promo_can = 'vasta-promo-can.webp' | asset_url -%}
+                        <img
+                          class="vasta-promo__img"
+                          src="{{ promo_can }}&width=160"
+                          srcset="{{ promo_can }}&width=140 140w, {{ promo_can }}&width=160 160w, {{ promo_can }}&width=280 280w, {{ promo_can }}&width=320 320w"
+                          sizes="160px"
+                          width="320"
+                          height="320"
+                          alt=""
+                          loading="lazy"
+                        >
+                      {%- endif -%}
+                      {%- if section.settings.promo_link != blank -%}
+                        <a class="vasta-promo__link" href="{{ section.settings.promo_link }}">
+                          <span class="vasta-c__visually-hidden">{{ section.settings.promo_title }}</span>
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  </li>
+                {%- endif -%}
+
+                <li>
+                  {%- render 'vasta-product-card', product: product, lazy: forloop.index > 4 -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+
+            {%- if paginate.next -%}
+              <div class="vasta-grid__more" data-vasta-more>
+                <a class="vasta-btn-outline" href="{{ paginate.next.url }}" data-vasta-more-btn rel="next">Load more</a>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endpaginate -%}
+
+<script src="{{ 'vasta-collection.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Vasta | Collection grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Promo card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo",
+      "label": "Show promo card",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "promo_position",
+      "label": "Position in the grid",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "promo_title",
+      "label": "Title",
+      "default": "New Flavor is Coming"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Text",
+      "default": "Pre-Order Now & Get 10% Off"
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vasta | Collection grid"
+    }
+  ]
+}
+{% endschema %}

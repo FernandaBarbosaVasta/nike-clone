@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "banner": {
+      "type": "vasta-collection-banner",
+      "settings": {}
+    },
+    "pills": {
+      "type": "vasta-collection-pills",
+      "blocks": {
+        "pill-1": { "type": "pill", "settings": { "label": "Energy Drinks" } },
+        "pill-2": { "type": "pill", "settings": { "label": "Supplements", "fallback": "supplements" } },
+        "pill-3": { "type": "pill", "settings": { "label": "Pre-Workout", "fallback": "preworkout" } },
+        "pill-4": { "type": "pill", "settings": { "label": "Snaks", "fallback": "snacks" } },
+        "pill-5": { "type": "pill", "settings": { "label": "Hydration", "fallback": "hydration" } }
+      },
+      "block_order": ["pill-1", "pill-2", "pill-3", "pill-4", "pill-5"],
+      "settings": {}
+    },
+    "grid": {
+      "type": "vasta-collection-grid",
+      "settings": {}
+    },
+    "faq": {
+      "type": "vasta-collection-faq",
+      "blocks": {
+        "q-1": {
+          "type": "question",
+          "settings": {
+            "question": "What makes your energy drink different?",
+            "answer": "<p>Our formula blends clean caffeine, essential vitamins, and natural ingredients that give you long-lasting energy without the crash or jitters.</p>"
+          }
+        },
+        "q-2": { "type": "question", "settings": { "question": "How much caffeine is in each can?", "answer": "<p>Answer to be confirmed by the client.</p>" } },
+        "q-3": { "type": "question", "settings": { "question": "Is it sugar-free?", "answer": "<p>Answer to be confirmed by the client.</p>" } },
+        "q-4": { "type": "question", "settings": { "question": "When should I drink it?", "answer": "<p>Answer to be confirmed by the client.</p>" } },
+        "q-5": { "type": "question", "settings": { "question": "Is it safe to drink every day?", "answer": "<p>Answer to be confirmed by the client.</p>" } },
+        "q-6": { "type": "question", "settings": { "question": "Is it vegan or gluten-free?", "answer": "<p>Answer to be confirmed by the client.</p>" } }
+      },
+      "block_order": ["q-1", "q-2", "q-3", "q-4", "q-5", "q-6"],
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "background": "#000000",
+        "text_color": "#F4F4F4"
+      }
+    }
+  },
+  "order": ["banner", "pills", "grid", "faq", "footer"]
+}

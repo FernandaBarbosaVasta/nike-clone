@@ -1,0 +1,11 @@
+{%- comment -%}
+  Shared base for the Vasta collection sections: fonts and stylesheet.
+  Hanson/Serenity have no web licence: Archivo Black (display) and Poppins (body) are the replacements.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Poppins:wght@300;400;500;600&display=swap"
+  rel="stylesheet"
+>
+{{ 'vasta-collection.css' | asset_url | stylesheet_tag }}

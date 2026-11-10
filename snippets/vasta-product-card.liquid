@@ -1,0 +1,69 @@
+{%- comment -%}
+  Vasta product card.
+  Params: product, lazy (boolean).
+  Badge: product tag "new" or "best seller" (case-insensitive).
+  Rating: only rendered when the product has the standard reviews metafields (reviews.rating / reviews.rating_count).
+{%- endcomment -%}
+{%- liquid
+  assign badge = ''
+  assign badge_lime = false
+  for tag in product.tags
+    assign tag_down = tag | downcase
+    if tag_down == 'new'
+      assign badge = 'New'
+    elsif tag_down == 'best seller' or tag_down == 'best-seller' or tag_down == 'bestseller'
+      assign badge = 'Best Seller'
+      assign badge_lime = true
+    endif
+  endfor
+
+  assign loading = 'eager'
+  if lazy
+    assign loading = 'lazy'
+  endif
+
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count
+-%}
+
+<article class="vasta-card">
+  {%- if badge != blank -%}
+    <span class="vasta-ribbon{% if badge_lime %} vasta-ribbon--lime{% endif %}">{{ badge }}</span>
+  {%- endif -%}
+
+  <div class="vasta-card__media">
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 560
+        | image_tag: widths: '280, 420, 560', sizes: '(min-width: 1280px) 280px, (min-width: 750px) 30vw, 46vw', loading: loading, alt: product.featured_image.alt
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </div>
+
+  <div class="vasta-card__body">
+    {%- if rating != blank -%}
+      <span class="vasta-card__rating">
+        <span class="vasta-card__stars" aria-hidden="true">
+          {%- for i in (1..5) -%}
+            <svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 .5l1.65 3.6 3.85.45-2.85 2.65.75 3.9L6 9.1 2.6 11.1l.75-3.9L.5 4.55l3.85-.45z"/></svg>
+          {%- endfor -%}
+        </span>
+        <span>{{ rating.rating | default: rating | round: 1 }}{% if rating_count != blank %} of {{ rating_count }} reviews{% endif %}</span>
+      </span>
+    {%- endif -%}
+
+    <h3 class="vasta-card__title">
+      <a href="{{ product.url }}">{{ product.title | escape }}</a>
+    </h3>
+
+    <div class="vasta-card__price">
+      {{ product.price | money }}
+      {%- if product.compare_at_price > product.price -%}
+        <s>{{ product.compare_at_price | money }}</s>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

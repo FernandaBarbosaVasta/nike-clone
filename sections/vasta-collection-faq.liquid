@@ -1,0 +1,118 @@
+{% render 'vasta-collection-base' %}
+
+<section class="vasta-c vasta-faq" {{ section.shopify_attributes }}>
+  <div class="vasta-c__container vasta-faq__inner">
+    <div class="vasta-faq__head">
+      <h2 class="vasta-faq__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="vasta-faq__sub">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <ul class="vasta-faq__list" role="list">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <details class="vasta-faq__item"{% if forloop.first and section.settings.first_open %} open{% endif %}>
+            <summary class="vasta-faq__q">{{ block.settings.question }}</summary>
+            <div class="vasta-faq__a">{{ block.settings.answer }}</div>
+          </details>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vasta | FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "No Jitters, Just Answers"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_open",
+      "label": "Open the first question",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vasta | FAQ",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "What makes your energy drink different?",
+            "answer": "<p>Our formula blends clean caffeine, essential vitamins, and natural ingredients that give you long-lasting energy without the crash or jitters.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How much caffeine is in each can?",
+            "answer": "<p>Answer to be confirmed by the client.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is it sugar-free?",
+            "answer": "<p>Answer to be confirmed by the client.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "When should I drink it?",
+            "answer": "<p>Answer to be confirmed by the client.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is it safe to drink every day?",
+            "answer": "<p>Answer to be confirmed by the client.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is it vegan or gluten-free?",
+            "answer": "<p>Answer to be confirmed by the client.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

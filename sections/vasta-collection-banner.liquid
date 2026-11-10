@@ -1,0 +1,101 @@
+{% render 'vasta-collection-base' %}
+
+<section class="vasta-c vasta-banner" {{ section.shopify_attributes }}>
+  <div class="vasta-banner__bg">
+    {%- if section.settings.background_image != blank -%}
+      {{
+        section.settings.background_image
+        | image_url: width: 1675
+        | image_tag: widths: '400, 800, 1440, 1675', sizes: '100vw', loading: 'eager', alt: ''
+      }}
+    {%- else -%}
+      {%- assign bg = 'vasta-hero-bg.webp' | asset_url -%}
+      <img
+        src="{{ bg }}&width=1440"
+        srcset="{{ bg }}&width=400 400w, {{ bg }}&width=800 800w, {{ bg }}&width=1440 1440w, {{ bg }}&width=1675 1675w"
+        sizes="100vw"
+        width="1675"
+        height="768"
+        alt=""
+        loading="eager"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="vasta-c__container vasta-banner__inner">
+    <div class="vasta-banner__copy">
+      <h1 class="vasta-banner__title">
+        {%- if section.settings.title != blank -%}
+          {{- section.settings.title -}}
+        {%- else -%}
+          {{- collection.title | default: 'Energy Drinks' -}}
+        {%- endif -%}
+      </h1>
+      <div class="vasta-banner__text">
+        {%- if section.settings.text != blank -%}
+          {{ section.settings.text }}
+        {%- elsif collection.description != blank -%}
+          {{ collection.description }}
+        {%- else -%}
+          <p>The shortcut to feeling unstoppable. Refreshing taste, instant focus, and the kind of energy that keeps up with your chaos. You bring the hustle, we’ll bring the charge.</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="vasta-banner__media">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 840
+          | image_tag: widths: '330, 420, 660, 840', sizes: '(min-width: 1280px) 420px, (min-width: 750px) 300px, 330px', loading: 'eager', alt: section.settings.image.alt
+        }}
+      {%- else -%}
+        {%- assign can = 'vasta-hero-can.webp' | asset_url -%}
+        <img
+          src="{{ can }}&width=420"
+          srcset="{{ can }}&width=330 330w, {{ can }}&width=420 420w, {{ can }}&width=660 660w, {{ can }}&width=840 840w"
+          sizes="(min-width: 1280px) 420px, (min-width: 750px) 300px, 330px"
+          width="840"
+          height="967"
+          alt=""
+          loading="eager"
+        >
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vasta | Collection banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "info": "Leave empty to use the collection title."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "info": "Leave empty to use the collection description."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vasta | Collection banner"
+    }
+  ]
+}
+{% endschema %}
